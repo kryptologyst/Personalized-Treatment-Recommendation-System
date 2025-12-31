@@ -1,0 +1,58 @@
+# Configuration for Personalized Treatment Recommendation System
+
+# Model Configuration
+model:
+  name: "clinicalbert-base"  # Options: clinicalbert-base, biogpt, tfidf-baseline
+  max_length: 512
+  batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 10
+  warmup_steps: 100
+  weight_decay: 0.01
+
+# Data Configuration
+data:
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  max_samples: 1000  # For synthetic data generation
+  min_treatment_length: 10
+  max_treatment_length: 200
+
+# Training Configuration
+training:
+  device: "auto"  # auto, cuda, mps, cpu
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0
+  early_stopping_patience: 3
+  save_best_model: true
+  checkpoint_dir: "checkpoints"
+
+# Evaluation Configuration
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1", "auc", "calibration"]
+  top_k_recommendations: [1, 3, 5]
+  confidence_threshold: 0.5
+  calibration_bins: 10
+
+# Safety and Compliance
+safety:
+  deidentify: true
+  log_level: "INFO"
+  disclaimer_required: true
+  max_concurrent_requests: 10
+
+# Paths
+paths:
+  data_dir: "data"
+  model_dir: "models"
+  logs_dir: "logs"
+  assets_dir: "assets"
+  config_dir: "configs"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/treatment_recommender.log"
+  wandb_project: "healthcare-treatment-recommendation"
